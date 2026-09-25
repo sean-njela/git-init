@@ -1,0 +1,30 @@
+version: '3'
+
+output: prefixed
+
+tasks:
+  default:
+    desc: List repository tasks
+    cmds:
+      - task --list-all
+
+  status:
+    desc: Show Git worktree status
+    cmds:
+      - git status --short --branch
+
+  validate-contract:
+    desc: Validate specification front matter and provenance
+    cmds:
+      - python3 scripts/validate_contract.py
+
+  validate-template:
+    desc: Generate and update a core Copier fixture
+    cmds:
+      - ./scripts/validate_template.sh
+
+  check:
+    desc: Run repository validation
+    deps:
+      - validate-contract
+      - validate-template

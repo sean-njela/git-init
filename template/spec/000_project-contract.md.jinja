@@ -1,0 +1,28 @@
+---
+id: SPEC-000
+title: Project Contract
+status: Accepted
+version: 0.1.0
+date: 2026-09-25
+commit: 1400b1aa2b4f6bf9e56c5bfe3e4e5f39c20b1ce1
+---
+
+# {{ project_name }} Project Contract
+
+## Purpose
+
+{{ project_description }}
+
+This project was generated from the `git-init` core contract. The selected project kind is `{{ project_kind }}` and the selected profile is `{{ profile }}`.
+
+## Current capabilities
+
+The generated project currently enables the core repository contract only. Additional capabilities must be added through a reviewed template update and recorded in `.project/project.yaml`.
+
+## Required practices
+
+- Keep normative decisions in `spec/`.
+- Keep explanatory guidance in `docs/`.
+- Keep secrets and runtime state outside Git.
+- Run `task check` before committing.
+- Record architectural changes in an ADR.

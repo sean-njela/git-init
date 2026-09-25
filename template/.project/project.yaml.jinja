@@ -1,0 +1,26 @@
+schema: 1
+
+project:
+  name: "{{ project_name }}"
+  slug: "{{ project_slug }}"
+  kind: "{{ project_kind }}"
+  profile: "{{ profile }}"
+  description: "{{ project_description }}"
+
+capabilities:
+  core: true
+  docs: false
+  automation: false
+  application: false
+  container: false
+  release: false
+  terraform: false
+  ansible: false
+  kubernetes: false
+  argocd: false
+  observability: false
+
+template:
+  engine: copier
+  contract_version: "0.1.0"
+  review_commit: "1400b1aa2b4f6bf9e56c5bfe3e4e5f39c20b1ce1"

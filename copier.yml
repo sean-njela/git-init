@@ -1,0 +1,42 @@
+_subdirectory: template
+
+project_name:
+  type: str
+  help: Human-readable project name
+
+project_slug:
+  type: str
+  help: Repository-safe project slug
+  default: "{{ project_name | lower | replace(' ', '-') }}"
+  validator: >-
+    {% if not project_slug | regex_search('^[a-z][a-z0-9-]*$') %}
+    Use lowercase letters, numbers, and hyphens; start with a letter.
+    {% endif %}
+
+project_kind:
+  type: str
+  help: Broad project kind
+  choices:
+    - service
+    - application
+    - library
+    - cli
+    - documentation
+    - infrastructure
+    - platform
+  default: service
+
+profile:
+  type: str
+  help: Technology profile identifier
+  default: generic
+
+project_description:
+  type: str
+  help: Short project description
+  default: Generated from the git-init project contract.
+
+license_holder:
+  type: str
+  help: Copyright holder for the generated project
+  default: ""

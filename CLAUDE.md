@@ -2,17 +2,15 @@
 
 ## Project Overview
 
-`git-init` is a documentation-first seed for a universal open-source project template. Its intended stable contract is the software development lifecycle and project governance; language, framework, runtime, deployment platform, and infrastructure remain configurable.
+`git-init` is a contract-driven, Copier-based seed for universal open-source
+project templates. Its stable contract is the software development lifecycle
+and project governance; language, framework, runtime, deployment platform, and
+infrastructure remain configurable.
 
-The repository is not currently an application, library, or runnable CI/CD system. It currently contains the project direction, licensing metadata, and a deployment reference book. Treat the root `README.md` as authoritative for the broader template direction.
-
-## Architecture & Data Flow
-
-### Current repository architecture
-
-- `README.md` defines the technology-neutral project contract, GitHub-first operating model, and intended MkDocs/Kubernetes direction.
-- `book/` contains the current full-stack deployment and operations reference. It is source material for the evolving template, not the final repository architecture.
-- There is currently no application source tree, package manifest, test suite, CI workflow, MkDocs configuration, infrastructure manifest, or executable repository script.
+The repository now contains the accepted repository, generator, and stage
+contracts plus a minimal Copier core template. It does not yet contain the
+documentation, application, infrastructure, Kubernetes, Argo CD, or
+observability stages. Treat the root `README.md` and `spec/` as authoritative.
 
 ### Reference-book data flow
 
@@ -29,19 +27,40 @@ This is instructional prose for a hypothetical Vue/FastAPI/Meilisearch deploymen
 
 ### Intended future architecture
 
-The intended baseline is GitHub-first: GitHub Actions, Issues, Projects, pull requests, security automation, Releases/Packages, and GitHub Pages with MkDocs. Stack-specific behavior should live in profiles, adapters, or project configuration. Kubernetes, Argo CD, and cloud-specific controllers are optional integrations for capabilities GitHub cannot provide and must remain isolated from the universal contract.
+The intended baseline is GitHub-first and Copier-generated. GitHub Actions,
+Issues, Projects, pull requests, security automation, Releases/Packages, and
+GitHub Pages with MkDocs are the default integrations. Stack-specific behavior
+belongs in profiles and capability stages. Kubernetes, Argo CD, and
+cloud-specific controllers are optional and isolated from the universal
+contract.
 
 ## Key Directories
 
+- `spec/` — normative repository, generator, and capability-stage contracts.
+- `template/` — renderable Copier content; generated projects do not receive
+  the maintainer repository outside this boundary.
+- `copier.yml` — Copier questionnaire and template settings.
 - `book/` — deployment and operations reference material.
-- `book/images/` — diagrams and screenshots used by the reference chapters.
 - Root metadata — `README.md`, `LICENSE`, and `.gitignore`.
 
-The archive `book/FullStackDeploymentHandbook-main.zip` and rendered artifact `book/full_stack_deployment_guide.pdf` are retained for provenance and migration work. They are not the source of truth for repository behavior.
+The archive `book/FullStackDeploymentHandbook-main.zip` and rendered artifact
+`book/full_stack_deployment_guide.pdf` are retained for provenance and
+migration work. They are not the source of truth for repository behavior.
 
 ## Development Commands
 
-No repository-level build, run, lint, test, documentation-build, or deployment command exists yet. Do not claim that a command is supported unless a corresponding configuration or executable file has been added.
+The current repository's first generation workflow is:
+
+```bash
+uvx copier copy . /tmp/git-init-generated --vcs-ref HEAD
+```
+
+The generated core project exposes `task status`, `task validate`, and
+`task check`. The repository itself does not yet have a project-wide build,
+run, lint, documentation-build, or deployment command.
+
+Do not claim that a command is supported unless a corresponding configuration
+or executable file has been added.
 
 Useful current metadata checks are:
 
@@ -67,36 +86,55 @@ Run operational commands from the book only in an explicitly provisioned target 
 
 ## Code Conventions & Common Patterns
 
-- Preserve technology neutrality in root-level guidance. Do not promote the book's Python, Vue, Node, pnpm, Nginx, or Meilisearch examples into mandatory repository requirements.
-- Keep stack-specific behavior behind a clearly named profile, adapter, or project configuration when those structures are introduced.
-- Use GitHub as the default collaboration and automation platform. External DevOps systems are explicit, documented exceptions.
-- Markdown chapters use numeric ordering (`00_` through `07_`) and descriptive lowercase filenames with hyphens where needed.
-- Documentation placeholders use angle brackets, for example `<your_domain>`; replace them before execution and remove the brackets.
-- Preserve least-privilege operational patterns from the book: SSH keys, non-root/system users, firewall isolation, and explicit service validation such as `nginx -t` before reload.
-- Do not treat prose snippets, screenshots, PDFs, or the source ZIP as executable configuration.
+- Preserve technology neutrality in root-level guidance.
+- Keep stack-specific behavior behind profiles and capability stages.
+- Use Copier for generation and versioned template updates.
+- Use GitHub as the default collaboration and automation platform.
+- Keep Terraform and Ansible under `infra/`; keep Kubernetes, Argo CD, and
+  observability under `platform/` in generated projects.
+- Every normative specification must contain front matter with a full reviewed
+  Git commit SHA.
+- Do not treat prose snippets, screenshots, PDFs, or the source ZIP as
+  executable configuration.
 
-There is no current application code convention for dependency injection, state management, async design, error handling, or formatting. Establish those conventions in the relevant stack profile when implementation code is added rather than inferring them from the deployment book.
+There is no application code convention yet. Establish dependency injection,
+state management, async design, error handling, and formatting conventions in
+the relevant profile when implementation code is added.
 
 ## Important Files
 
-- `README.md` — authoritative repository purpose, scope, GitHub-first model, and future direction.
+- `README.md` — authoritative repository purpose and current implementation.
+- `spec/000_repository-contract.md` — generated-project contract.
+- `spec/001_generator-contract.md` — Copier generation and update contract.
+- `spec/002_stage-contract.md` — capability-stage requirements.
+- `copier.yml` — Copier template settings and questionnaire.
+- `template/` — generated-project source content.
 - `LICENSE` — MIT license and repository ownership metadata.
-- `.gitignore` — broad inherited ignore rules; it is not evidence that .NET, JavaScript, Python, or another runtime is active.
-- `book/README.md` — reference index and explicit statement that the book is not the final project contract.
-- `book/00_introduction.md` — reference scope, example stack, and placeholder conventions.
+- `book/README.md` — reference index and explicit statement that the book is
+  not the final project contract.
+- `book/00_introduction.md` — reference scope, example stack, and placeholder
+  conventions.
 - `book/01_foundation.md` — VM provisioning and SSH/security examples.
-- `book/02_application-runtime.md` — example application transfer, runtime, process, and Nginx flow.
+- `book/02_application-runtime.md` — example application transfer, runtime,
+  process, and Nginx flow.
 - `book/03_data-and-search.md` — Meilisearch isolation and migration examples.
-- `book/04_global-delivery-security.md` — DNS, TLS, edge delivery, and Nginx hardening examples.
-- `book/05_automation-pipeline.md` — illustrative branch protection, pre-commit, CI, testing, and security workflows.
-- `book/06_optimization-maintenance.md` — illustrative observability, load testing, DAST, and maintenance procedures.
+- `book/04_global-delivery-security.md` — DNS, TLS, edge delivery, and Nginx
+  hardening examples.
+- `book/05_automation-pipeline.md` — illustrative branch protection, CI,
+  testing, and security workflows.
+- `book/06_optimization-maintenance.md` — illustrative observability, load
+  testing, DAST, and maintenance procedures.
 - `book/07_conclusion.md` — summary of the current reference posture.
 
 ## Runtime & Tooling Preferences
 
-The current repository has no required runtime, package manager, dependency lockfile, build tool, or documentation tool configuration. IntelliJ metadata mentioning JDK 21 is local IDE state and is not a project requirement.
+The generated core template requires no application runtime. Copier is the
+current generator and can be run through `uvx`; generated projects select one
+primary toolchain manager, such as `mise` or Devbox, when a later stage needs
+one.
 
-The book's hypothetical deployment uses Python 3 with `pip` for the backend and Node/pnpm for a Vue frontend on Ubuntu. Those are reference choices only. Future project profiles must declare their own runtime, package manager, pinned tool versions, and reproducible commands.
+Future profiles must declare their runtime, package manager, pinned tool
+versions, and reproducible commands.
 
 The canonical Git remote is:
 
@@ -106,11 +144,13 @@ git@github.com:sean-njela/git-init.git
 
 ## Testing & QA
 
-No tests, test framework, fixtures, coverage configuration, lint/format configuration, CI checks, security scanners, or QA scripts currently exist. There is no repository-level coverage threshold.
+The current repository has no full test suite or CI workflow. The initial
+verification surface is Copier generation and the generated core Taskfile.
+Future stages must add their own test and quality contract, wire it into
+GitHub Actions, and document local reproduction commands.
 
-`book/05_automation-pipeline.md` contains illustrative examples for unit, integration, and end-to-end tests, including pytest, frontend coverage, Playwright, dependency audits, Bandit, and DAST. These examples describe a future application pipeline and must not be reported as current QA infrastructure.
-
-When executable project code is added, add its test and quality contract with the relevant stack profile and wire it into GitHub Actions. Document test discovery, required checks, coverage policy, security scanning, and local reproduction commands together; do not silently assume the book's example commands apply.
+`book/05_automation-pipeline.md` remains illustrative reference material and
+must not be reported as current QA infrastructure.
 
 ## Assistant Workflow
 

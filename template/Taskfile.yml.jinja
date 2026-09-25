@@ -1,0 +1,27 @@
+version: '3'
+
+output: prefixed
+
+vars:
+  PROJECT_NAME: '{{ project_name }}'
+
+tasks:
+  default:
+    desc: List available core tasks
+    cmds:
+      - task --list-all
+
+  status:
+    desc: Show Git worktree status
+    cmds:
+      - git status --short --branch
+
+  validate:
+    desc: Run technology-neutral repository checks
+    cmds:
+      - git diff --check
+
+  check:
+    desc: Run all currently configured checks
+    deps:
+      - validate

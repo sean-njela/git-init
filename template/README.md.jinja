@@ -1,0 +1,36 @@
+# {{ project_name }}
+
+{{ project_description }}
+
+This project was generated from the [`git-init`](https://github.com/sean-njela/git-init) contract.
+
+## Project metadata
+
+- **Kind**: `{{ project_kind }}`
+- **Profile**: `{{ profile }}`
+- **Contract**: `0.1.0`
+
+## Quick start
+
+Inspect the generated project metadata:
+
+```bash
+cat .project/project.yaml
+```
+
+Run the core repository check:
+
+```bash
+task check
+```
+
+## Repository contract
+
+- Normative decisions belong in [`spec/`](spec/).
+- Explanatory documentation belongs in [`docs/`](docs/) when the documentation stage is enabled.
+- Secrets and runtime state must remain outside Git.
+- Additional capabilities are introduced through reviewed template updates.
+
+## License
+
+This project is licensed under the MIT License. See [`LICENSE`](LICENSE).
